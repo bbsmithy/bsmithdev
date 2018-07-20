@@ -46,6 +46,10 @@ blockquote {
   margin-top: 60px;
 }
 
+.content-view {
+  margin-top: 100px;
+}
+
 .caption {
   font-size: 14px;
   font-style: italic;
@@ -86,6 +90,10 @@ img::-moz-selection {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+#mainNav .navbar-container {
+  max-width: 63.33%;
+}
+
 #mainNav .navbar-brand {
   font-weight: 800;
   color: #343a40;
@@ -95,7 +103,6 @@ img::-moz-selection {
   font-size: 12px;
   font-weight: 800;
   padding: 13px;
-  text-transform: uppercase;
   color: #343a40;
 }
 
@@ -106,17 +113,22 @@ img::-moz-selection {
   text-transform: uppercase;
 }
 
+#mainNav .navbar-nav > li.nav-item > .nav-link {
+  padding-left: 0 !important;
+}
+
+.navbar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 @media only screen and (min-width: 992px) {
   #mainNav {
-    border-bottom: 1px solid transparent;
-    background: transparent;
-  }
-  #mainNav .navbar-brand {
-    padding: 10px 20px;
+    border-bottom: 1px solid;
   }
   #mainNav .navbar-brand:focus,
   #mainNav .navbar-brand:hover {
-    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
   }
   #mainNav .navbar-nav > li.nav-item > a {
     padding: 10px 20px;
@@ -125,9 +137,8 @@ img::-moz-selection {
   #mainNav .navbar-nav > li.nav-item > a:hover {
     text-decoration: underline;
   }
-
-  #mainNav .navbar-nav > container {
-    max-width: 900px;
+  .content-view {
+    margin-top: 100px;
   }
 }
 
@@ -179,9 +190,9 @@ img::-moz-selection {
 }
 
 header.masthead {
+  margin-top: 50px;
   margin-bottom: 50px;
   background: no-repeat center center;
-  background-color: #868e96;
   background-attachment: scroll;
   position: relative;
   -webkit-background-size: cover;
@@ -196,37 +207,37 @@ header.masthead .overlay {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: #212529;
   opacity: 0.5;
 }
 
 header.masthead .page-heading,
 header.masthead .post-heading,
 header.masthead .site-heading {
-  padding: 200px 0 150px;
-  color: white;
+  padding-top: 70px;
 }
 
 @media only screen and (min-width: 768px) {
   header.masthead .page-heading,
   header.masthead .post-heading,
   header.masthead .site-heading {
-    padding: 200px 0;
+    padding-top: 70px;
   }
 }
 
 header.masthead .page-heading,
 header.masthead .site-heading {
-  text-align: center;
+  text-align: left;
 }
 
 header.masthead .page-heading h1,
 header.masthead .site-heading h1 {
-  font-size: 50px;
+  font-size: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-top: 0;
 }
 
-header.masthead .page-heading .subheading,
+/* header.masthead .page-heading .subheading,
 header.masthead .site-heading .subheading {
   font-size: 24px;
   font-weight: 300;
@@ -234,17 +245,21 @@ header.masthead .site-heading .subheading {
   display: block;
   margin: 10px 0 0;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
+} */
 
 @media only screen and (min-width: 768px) {
   header.masthead .page-heading h1,
   header.masthead .site-heading h1 {
-    font-size: 80px;
+    font-size: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 }
 
 header.masthead .post-heading h1 {
-  font-size: 35px;
+  font-size: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 header.masthead .post-heading .meta,
@@ -286,7 +301,7 @@ header.masthead .post-heading .meta a {
 
 .post-preview > a:focus,
 .post-preview > a:hover {
-  text-decoration: none;
+  text-decoration: underline;
   color: #0085a1;
 }
 

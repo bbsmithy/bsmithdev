@@ -1,0 +1,17 @@
+mixin post-preview(title, url, date)
+    .post-preview
+        a(href='posts/?title='+url)
+            h2.post-title=title
+        p.post-meta
+            | Posted on #{date}
+        hr
+-  
+    var list = [
+        {'title': 'Python Image Compression with AWS Lamda functions','date': '20 July 2018','url': 'aws-lamda-image-compression'}, 
+        {'title': 'Python Image Compression with AWS Lamda functions','date': '20 July 2018','url': 'aws-lamda-image-compression'},
+        {'title': 'Python Image Compression with AWS Lamda functions','date': '20 July 2018','url': 'aws-lamda-image-compression'}, 
+        {'title': 'Python Image Compression with AWS Lamda functions','date': '20 July 2018','url': 'aws-lamda-image-compression'}, 
+        {'title': 'Python Image Compression with AWS Lamda functions','date': '20 July 2018','url': 'aws-lamda-image-compression'}, 
+    ]
+each item in list
+    +post-preview(item.title, item.url, item.date)
