@@ -117,6 +117,11 @@ img::-moz-selection {
   padding-left: 0 !important;
 }
 
+
+#bars{
+  margin-left: 100px
+}
+
 .navbar {
   padding-left: 0 !important;
   padding-right: 0 !important;

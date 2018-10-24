@@ -7,6 +7,9 @@
   .navbar-brand {
     font-weight: 800;
     color: $gray-800;
+    #bars{
+      margin-left: 100px
+    }
   }
   .navbar-toggler {
     font-size: 12px;

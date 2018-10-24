@@ -30,6 +30,11 @@ a {
   transition: all 0.2s;
 }
 
+
+#bars{
+  margin-left: 10px
+}
+
 a:focus,
 a:hover {
   color: #0085a1;

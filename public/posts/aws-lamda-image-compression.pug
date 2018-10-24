@@ -12,21 +12,24 @@ block content
       .container
         .row
           .col-lg-8.col-md-10.mx-auto
-            p
-                | I recently built an image compression function in Python with AWS Lamada functions. It's a pretty simple script that would get triggered whenever an image was uploaded to my S3 source bucket -> compress the image and upload the compressed version to another S3 bucket ( my target bucket ).
-                | I found it quite tricky to get my script set up on AWS Lamda at first as it was my first time workingwith Lamda.
-                | I though I'd share how I got this working in a comprehensive step by step guide - as I can imagine image compression is proably quite important to other folks aswell.
-            p
-                | If your building an app that requires a lot of user generated image storage/downloading e.g Instagram, Tinder - your probably going to want to compress your images
-                | before you upload them to your main storage bucket (I like to call this my target bucket) .
 
-                | This will save you a lot of expenses for storage and download transfer when users request images from your target bucket because the images being downloaded are much smaller! Thats class man but how doe shtis work?
+            h2 Step-by-step
+
             p
-                | In this guide we're going to build an image compression script using Python and the PIL library, then we'll zip our script and PIL library using a Docker Linux container.
-                | Next we'll go to the lamda console and set up our S3 source bucket trigger and target buckets to a Lamda function. We will then upload our compression script zip to that Lamda.
-            p
-                | Heres a diagram to illustrate what we will be building. Please excuse this shameful thing below:
-            img.img-fluid(src="../img/lamda-article.jpg", alt="lamda-image-compression-trigger-s3-aws")
+                | In this guide we're going to:
+            p     1) Build an image compression script using Python and the PIL library,
+            p     2) Then we'll zip our script and PIL library using a Docker Linux container
+            p     3) Next we'll go to the lamda console and set up our S3 source bucket trigger and target bucket that the Lamda compression function will use. 
+            p     4) We will then upload our compression script zip file to that Lamda.
+
+            h3 (1) Image compression script
+            br
+
+            <script src="https://gist.github.com/bbsmithy/e7a8cb8a71b2119aeafaf4f940b5c405.js"></script>
+
+            //- p
+            //-     | Heres a diagram to illustrate what we will be building. Please excuse this shameful thing below:
+            //- img.img-fluid(src="../img/lamda-article.jpg", alt="lamda-image-compression-trigger-s3-aws")
             //- h2.section-heading The Final Frontier
             //- p
             //-     | There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task
