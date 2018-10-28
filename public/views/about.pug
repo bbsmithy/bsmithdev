@@ -5,8 +5,10 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     meta(name='author', content='')
-    title Clean Blog - Start Bootstrap Theme
-    // Bootstrap core CSS
+   
+    title Brian Smith's | Dev Blog
+    link(rel="icon" type="image/png" href="../img/favicon.png")
+
     link(href='../vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
     // Custom fonts for this template
     link(href='../vendor/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
@@ -21,16 +23,51 @@ html(lang='en')
     .container.content-view
       .row
         .col-lg-8.col-md-10.mx-auto
+          div.card
+            .row
+              .col-md-3
+                img(src="../img/profile.jpeg", alt="" height="200px" style="border-top-left-radius: 0.25em; border-bottom-left-radius: 0.25em;")
+              .col-md-9
+                div(style="padding: 30px")
+                  h3 Brian Smith | Software Engineer
+                  div(style="padding: 10px; margin-top: 15px").row
+                    a(href="https://github.com/bbsmithy" target="blank").card-link
+                      img(src="../img/github-logo.png", alt="" height="30px")              
+                    a(href="https://www.linkedin.com/in/brian-smith-1845a1147/" target="blank").card-link
+                      img(src="../img/linkedIn-logo.png", alt="" height="30px")
+                      
           p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga
-            | atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?
+            | Hi, my name is Brian i'm a software developer from Dublin Ireland. I'm a fullstack Javascript engineer, using React.js, React Native and also native android development on the front-end. Node.js is what I primarly use for backend.
+            | I also enjoy messing around with WebAssemly and Rust for building 2D games on the web.
+            | For infrastruture I like to use Amazon Web Serives which allows me to develop scalable applications for a wide variety of applications.
+            | I also have an interest in machine learning, currently learning how to build neural networks with Python.
           p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error,
-            | repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus,
-            | minus!
-          p
-            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consequuntur magnam, excepturi aliquid ex itaque esse
-            | est vero natus quae optio aperiam soluta voluptatibus corporis atque iste neque sit tempora!
+            | I've been working at company called Cartrawler for the past year and half, developing web and mobile applications.
+            | I work on a start up called Sweep in my spare time a mobile app for buying and selling cars in the Irish and UK market.
+
+          h3 Projects
+          hr
+          a(href="https://benildus-college.firebaseapp.com/" target="blank")
+            div.card
+              .row
+                .col-md-4
+                  img(src="../img/benildus-site-thumb.png", alt="" height="180px" style="border-top-left-radius: 0.25em; border-bottom-left-radius: 0.25em;")
+                .col-md-8
+                  div(style="padding: 15px")
+                    h5 St.Benildus College | React.js Rebuild
+                    span.card-details Rebuild of benildus site with react.js and firebase backend
+          br
+          a(href="https://github.com/bbsmithy/picky-scrape" target="blank")
+            div.card
+              .row
+                .col-md-3
+                  img(src="../img/picky-scrape-logo.png", alt="" height="180px" style="border-top-left-radius: 0.25em; border-bottom-left-radius: 0.25em;")
+                .col-md-9
+                  div(style="padding: 15px")
+                    h5 Picky Scrape | NPM module
+                    span.card-details Simple CLI program for scraping websites 
+                
+          
     hr
     // Footer
     include ../includes/footer

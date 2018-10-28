@@ -23,9 +23,9 @@ app.get('/posts', function(req, res) {
   res.send(post);
 });
 
-app.get('/contact', function(req, res) {
-  res.send(contact);
-});
+// app.get('/contact', function(req, res) {
+//   res.send(contact);
+// });
 
 app.listen(port);
 module.exports = app;

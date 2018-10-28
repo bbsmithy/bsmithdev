@@ -10,7 +10,7 @@ p {
 }
 
 p a {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 h1,
@@ -30,9 +30,13 @@ a {
   transition: all 0.2s;
 }
 
+.card-link {
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
-#bars{
-  margin-left: 10px
+#bars {
+  margin-left: 10px;
 }
 
 a:focus,
@@ -133,14 +137,14 @@ img::-moz-selection {
   }
   #mainNav .navbar-brand:focus,
   #mainNav .navbar-brand:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
   }
   #mainNav .navbar-nav > li.nav-item > a {
     padding: 10px 20px;
   }
   #mainNav .navbar-nav > li.nav-item > a:focus,
   #mainNav .navbar-nav > li.nav-item > a:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
   }
   .content-view {
     margin-top: 100px;
@@ -306,7 +310,7 @@ header.masthead .post-heading .meta a {
 
 .post-preview > a:focus,
 .post-preview > a:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   color: #0085a1;
 }
 
@@ -335,7 +339,7 @@ header.masthead .post-heading .meta a {
 
 .post-preview > .post-meta > a:focus,
 .post-preview > .post-meta > a:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   color: #0085a1;
 }
 
