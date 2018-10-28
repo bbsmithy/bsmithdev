@@ -1,0 +1,274 @@
+extends ../views/post.pug
+
+
+
+block content
+    // Page Header
+    .container(style='margin-top: 100px')
+      .jumbotron.col-lg-8.col-md-10.mx-auto(style="background-image: url('https://cdn.spacetelescope.org/archives/images/wallpaper2/heic1509a.jpg'); color: white")
+        .post-heading
+          h1 Building a Node.js CLI Scraping Tool (Picky-Scrape)
+          h2.subheading 
+    // Post Content
+    article
+      .container
+        .row
+          .col-lg-8.col-md-10.mx-auto
+            h3 Links
+            a(href="https://www.npmjs.com/package/picky-scrape" target="blank") 
+                img(src="../img/npm-logo.png", alt="" height="50px")
+            a(href="https://github.com/bbsmithy/picky-scrape" target="blank") 
+                img(src="../img/github-logo.png", alt="" height="50px")
+            br
+            br
+            h3 Motivation
+            p
+                | I've been rebuilding a new site for my old school in React.js over the last few months.
+                | For the most part it's beeen interesting work. It involved building a CMS system with a firebase backend for managing their
+                | archive photos and a client side image resizer using React and the HTML5 canvas which was pretty fun. But now it comes to the boring
+                | part of the project: copying their existing page content over to the new site.
+            p
+                | I could do this manually by inpecting their site and grabbing parts that I want to transfer over, but that would leave me with
+                | a load of annoying wordpress classes and ids in the html and would not be much craic. Surely I can do better than this! A few weeks dragged on as I avoided the task.
+                | But then enough was enough, why not build a tool to do this for me! I decided to build a simple Node.js CLI tool (as an npm module) for scraping and cleaning the HTML from their site. Heres how I went about this:
+            
+            h3 Steps:
+            p   1) Set up the project structure
+            p   2) Defining paramaters with bin/global.js
+            p   3) Loading/parsing the HTML and writing to file with lib/index.js
+            br
+
+
+            h3 (1) Set up project structure
+            p 
+                | First thing I did was define the package.json file, the three dependencies used in picky scrape are request for making request for the HTML of page, cheerio which is an implementation of JQuery,
+                | that will allow us to use JQuery selectors to parse the response and grab the parts we want, and also figlet for display a nice program message when starting the tool!
+            pre 
+                code.json 
+                   | {
+                   |     "name": "picky-scrape",
+                   |     "version": "0.0.1",
+                   |     "description": "Node.js CLI program for picky part of a site, extracting plain html and writing it to file",
+                   |     "author": "bbsmithy",
+                   |     "dependencies": {
+                   |         "cheerio": "0.22.0",
+                   |         "figlet": "^1.2.1",
+                   |         "request": "2.88.0"
+                   |     },
+                   |     "main": "./lib/index.js",
+                   |     "scripts": {
+                   |         "test": "echo \"Error: no test specified\" && exit 1"
+                   |     },
+                   |     "license": "MIT",
+                   |     "preferGlobal": true,
+                   |     "bin": {
+                   |         "picky-scrape": "./bin/global.js"
+                   |     }
+                   | }
+            p bin/global.js will be picky-scrape's entry file and will handle the parameters we pass to it
+            p lib/index.js will handle loading the html with request, parsing the response with cheerio and writing to file with nodes filesystem module.
+            br
+
+            h3 (2) Defining parameters with bin/global.js
+            p bin/global.js is defined in the package.json as the entry file with bin: {picky-scrape: 'bin/global.js'}. So (if picky-scrape is installed globally) when we call picky-scrape from the command line
+                |  we are calling this file and we can pass params to it.
+            pre
+                code.javascript
+                    |#!/usr/bin/env node
+                    |
+                    |// Delete the 0 and 1 argument (node and script.js)
+                    |var args = process.argv.splice(process.execArgv.length + 2);
+                    |
+                    |// Retrieve the first argument
+                    |var URL = args[0];
+                    |var SELECTOR = args[1];
+                    |var ELEMENT_INDEX = args[2];
+                    |var FILE_OUTPUT = args[3];
+                    |
+                    |var pickyScrape = require('../lib/index.js');
+                    |
+                    |pickyScrape.start(URL, SELECTOR, ELEMENT_INDEX ,FILE_OUTPUT)
+            p URL: page we want to scrape
+            p SELECTOR: class name, id, or element we want to extract the contents from.
+            p ELEMENT_INDEX: the index of the found items matching the selector, so if we want the contents of the 3rd .article found on page we can call:
+            p picky-scrape [URL] .article 2 [FILE_OUTPUT]
+            p FILE_OUPUT: this is the file we will write to with the parsed HTML
+            p We then call the lib/index.js start function using these parameters
+            br
+            
+            h3 (3) Loading/parsing the HTML and writing to file
+            br
+            pre
+                code.javascript
+                   | const cheerio = require('cheerio');
+                   | const request = require('request');
+                   | const figlet = require('figlet');
+                   | const fs = require('fs');
+                   |
+                   | function start(URL, SELECTOR, ELEMENT_INDEX = 0, OUTPUT){
+                   |     figlet('PickyScrape', function(err, data) {
+                   |         if (err) {
+                   |             console.log('Something went wrong...');
+                   |             console.dir(err);
+                   |             return;
+                   |         }
+                   |         console.log(data)
+                   |     });
+                   |     request(URL, (error, response, html) => {
+                   |         if (!error && response.statusCode === 200) {
+                   |         const $ = cheerio.load(html);
+                   | 
+                   |         const resultHTML = $(SELECTOR).eq(ELEMENT_INDEX).html()
+                   |         if(resultHTML){
+                   |             const plainHTML = removeAttributes(resultHTML);
+                   |             if(OUTPUT){
+                   |             writeToFile(OUTPUT, plainHTML);
+                   |             }else{
+                   |                 console.log(plainHTML)
+                   |             }
+                   |         }else{
+                   |             console.log(`No results found for selector [${SELECTOR}] with position [${ELEMENT_INDEX}]`);
+                   |         }
+                   |         
+                   |         } else {
+                   |         console.log(error)
+                   |         }
+                   |     });
+                   | }
+                   | 
+                   | function removeAttributes(html, callback){
+                   |     const cheerioFilter = cheerio.load(html);
+                   |     cheerioFilter('*').each(function() {
+                   |         this.attribs = {};
+                   |     });
+                   |     return cheerioFilter.html().replace(/\s\s+/g, '');
+                   | }
+                   | 
+                   | function writeToFile(OUTPUT, html){
+                   |     fs.writeFile(OUTPUT, html, function(err){
+                   |         if(err) throw err;
+                   |         console.log(`Results written to ${OUTPUT}`);
+                   |     })
+                   | }
+                   |
+                   | module.exports = {
+                   |     start
+                   | };
+            p The start function is called from bin/global.js, first we output a nice message with figlet.
+            img(src="../img/picky-scrape-terminal-output.png")
+            p Then we send a request for the page passed by the user. And load the response if it succeeds into cheerio for parsing:
+            pre
+             code const $ = cheerio.load(html);
+            p From there we can select the part of the html we want to extarct based off of user input:
+            pre 
+             code const resultHTML = $(SELECTOR).eq(ELEMENT_INDEX).html()
+            p If the selection works we remove attributes and whitespace from that html with removeAttributes function so we left with just the plain html.
+            pre
+             code.javascript
+              | function removeAttributes(html, callback){
+              |   const cheerioFilter = cheerio.load(html);
+              |   cheerioFilter('*').each(function() {
+              |     this.attribs = {};
+              |   });
+              |   return cheerioFilter.html().replace(/\s\s+/g, '');
+              | }
+            p After that we can write to file with writeToFile function (if the user specified), otherwise we just console.log(resultHTML)
+            pre
+                code.javascript
+                    |function writeToFile(OUTPUT, html){
+                    |    fs.writeFile(OUTPUT, html, function(err){
+                    |        if(err) throw err;
+                    |        console.log(`Results written to ${OUTPUT}`);
+                    |    })
+                    |}
+            br
+            h3 Scraping the school's site
+            p I'm going to scrape my old schools site for an example on how to use picky-scrape.
+            p First we have to find the class or id that contains the content we want to scrape, 
+              | we want to grab the text content in the middle of the screen
+            img(src="../img/school-site.png", alt="" height="800px")
+            p A quick inspect element will show that the class we're looking for is .sb3-sb6
+            img(src="../img/inspect-content.png", alt="" height="300px")
+            br
+            br
+            p We can then run our scrape:
+            pre
+                code.bash
+                   | $ picky-scrape http://www.stbenilduscollege.com/about-us/ .sb3-sb6 0 site-about-us.html
+            p This will write our plain html form .sb3-sb6 to site-about-us.html, if we open site-about-us.html we get the plain html output:
+            img(src="../img/site-output.png", alt="" width="100%")
+            br
+            br
+            h3 Improvements
+            p To improve picky-scraper we could make sure that the removeAttributes function does not remove src's from images at the moment it removes all attributes
+
+            h3 Conclusion
+            p I hope this tool/post helps anyone doing similar website content transfers, or just gives people an idea on how to scrape sites with node.js
+            p If you want to use this package you can install it with:
+            pre
+                code.bash
+                   | $ npm install -g picky-scrape
+            p Thanks for reading!
+            
+
+
+
+
+
+
+            
+            
+
+            
+            
+            //- p
+            //-     | What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on
+            //-     | the earth.
+            //- p
+            //-     | A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather
+            //-     | than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish
+            //-     | her.
+            //- p
+            //-     | For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience
+            //-     | most certainly changes your perspective. The things that we share in our world are far more valuable than those
+            //-     | which divide us.
+            //- h2.section-heading The Final Frontier
+            //- p
+            //-     | There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task
+            //-     | to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.
+            //- p
+            //-     | There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task
+            //-     | to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.
+            //- blockquote.blockquote
+            //-     | The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy.
+            //-     | We predict too much for the next year and yet far too little for the next ten.
+            //- p
+            //-     | Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a historical
+            //-     | process which mankind is carrying out in accordance with the natural laws of human development.
+            //- h2.section-heading Reaching for the Stars
+            //- p
+            //-     | As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble,
+            //-     | the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that
+            //-     | if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.
+            //- a(href='#')
+            //-     img.img-fluid(src='../img/post-sample-image.jpg', alt='')
+            //- span.caption.text-muted
+            //-     | To go places and do things that have never been done before – that’s what living is all about.
+            //- p
+            //-     | Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore
+            //-     | strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.
+            //- p
+            //-     | As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our
+            //-     | nature, Man must explore, and this is exploration at its greatest.
+            //- p
+            //-     | Placeholder text by
+            //-     a(href='http://spaceipsum.com/') Space Ipsum
+            //-     | . Photographs by
+            //-     a(href='https://www.flickr.com/photos/nasacommons/') NASA on The Commons
+            //-     | .
+
+            br
+            br
+            br
+            include ../includes/disqus.pug
+            

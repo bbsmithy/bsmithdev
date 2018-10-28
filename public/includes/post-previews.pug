@@ -7,7 +7,8 @@ mixin post-preview(title, url, date)
         hr
 -  
     var list = [
-        {'title': 'Python Image Compression with AWS Lamda functions','date': '20 July 2018','url': 'aws-lamda-image-compression'}
+        {'title': 'Python Image Compression with AWS Lamda functions','date': '20 July 2018','url': 'aws-lamda-image-compression'},
+        {'title': 'Building a Node.js CLI Scraping Tool (Picky-Scrape)','date': '28 October 2018','url': 'building-node-scraper-tool-picky-scrape'}
     ]
 each item in list
     +post-preview(item.title, item.url, item.date)
