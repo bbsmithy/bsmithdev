@@ -15,8 +15,9 @@ block content
         .row
           .col-lg-8.col-md-10.mx-auto
             p.
-                This is a handy bash function you can put in your bash_profile or zshrc. It search through previous 
-                branches you worked on by piping the response of git branch to grep and passing a search string search for.
+                This is a handy bash function you can put in your bash_profile or zshrc. It searches through previous 
+                branches you have worked on by piping the response of git branch to grep and searching for param $1 of function.
+                From there it displays a list of branch results and gives you the option to checkout whichever one you want using select.
             pre
                 code.bash.
                     function fbr(){
@@ -30,7 +31,7 @@ block content
                                 
                                 if [[ ${#result[@]} > 0 ]]
                                 then
-                                    Select checkout branch:
+                                    echo ${#result[@]} branches found. Select checkout branch:
                                     select opt in "${result[@]}"
                                     do
                                         if [[ $result[$REPLY] ]]
@@ -49,6 +50,16 @@ block content
                             echo "Not a branch";
                         fi
                     }
+            p Make sure to save your bash_profile with 
+            pre
+                code.bash source ~/.bash_profile
+            p Now if you run:
+            pre
+                code.bash fbr (INSERT SEARCH STRING)
+            p You can get a list of branch options to checkout that contain your search string. select the branch to checkout by inputting its number in the results
+            img(src="../img/terminal-result-1.png ", alt="" width="100%")
+            p Thanks for reading, hope this speeds your branch swicthing!
+
 
 
 
