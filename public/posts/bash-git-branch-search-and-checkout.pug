@@ -1,0 +1,60 @@
+extends ../views/post.pug
+
+
+
+block content
+    // Page Header
+    .container(style='margin-top: 100px')
+      .jumbotron.col-lg-8.col-md-10.mx-auto(style="background-image: url('https://source.unsplash.com/collection/136301/1000x300'); color: white; text-shadow: 2px 2px 4px #000000;")
+        .post-heading
+          h1 Bash: Git search and checkout branches function fbr
+          h2.subheading 
+    // Post Content
+    article
+      .container
+        .row
+          .col-lg-8.col-md-10.mx-auto
+            p.
+                This is a handy bash function you can put in your bash_profile or zshrc. It search through previous 
+                branches you worked on by piping the response of git branch to grep and passing a search string search for.
+            pre
+                code.bash.
+                    function fbr(){
+                        if branch=$(git symbolic-ref --short -q HEAD)
+                        then
+                            if [ -z "$1" ]
+                            then
+                                echo "Please add a search string"
+                            else
+                                result=($(git branch | grep $1))
+                                
+                                if [[ ${#result[@]} > 0 ]]
+                                then
+                                    Select checkout branch:
+                                    select opt in "${result[@]}"
+                                    do
+                                        if [[ $result[$REPLY] ]]
+                                        then
+                                        git checkout $result[$REPLY]
+                                        break;
+                                        else
+                                        echo "Not $REPLY is not an option"
+                                        fi
+                                    done
+                                else
+                                    echo "No results found";
+                                fi
+                            fi
+                        else
+                            echo "Not a branch";
+                        fi
+                    }
+
+
+
+
+            br
+            br
+            br
+            include ../includes/disqus.pug
+            
