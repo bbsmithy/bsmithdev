@@ -9,6 +9,7 @@ app.set('view engine', 'pug');
 const home = pug.renderFile('public/views/home.pug');
 const about = pug.renderFile('public/views/about.pug');
 const contact = pug.renderFile(`public/views/contact.pug`);
+const cv = 
 
 app.get('/', function(req, res) {
   res.send(home);
@@ -22,6 +23,10 @@ app.get('/posts', function(req, res) {
   const post = pug.renderFile(`public/posts/${req.query.title}.pug`);
   res.send(post);
 });
+
+app.get('/cv', function (req, res){
+  res.sendFile(path.join(__dirname, './public', 'CV.pdf'));
+})
 
 // app.get('/contact', function(req, res) {
 //   res.send(contact);
