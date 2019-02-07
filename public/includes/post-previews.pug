@@ -1,5 +1,5 @@
 mixin post-preview(title, url, date)
-    .post-preview
+    .post-preview.animated.fadeInDown
         a(href='posts/?title='+url)
             h2.post-title=title
         p.post-meta
@@ -9,7 +9,8 @@ mixin post-preview(title, url, date)
     var list = [
         {'title': 'Bash: Git search and checkout branches function fbr','date': '20th November 2018','url': 'bash-git-branch-search-and-checkout'},
         {'title': 'Server-side React News App with Next.js','date': '19th November 2018','url': 'server-side-react-news-app-with-nextjs'},
-        {'title': 'Building a Node.js CLI Scraping Tool (Picky-Scrape)','date': '28th October 2018','url': 'building-node-scraper-tool-picky-scrape'}
+        {'title': 'Building a Node.js CLI Scraping Tool (Picky-Scrape)','date': '28th October 2018','url': 'building-node-scraper-tool-picky-scrape'},
+
     ]
 each item in list
     +post-preview(item.title, item.url, item.date)
